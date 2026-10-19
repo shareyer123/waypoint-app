@@ -1,0 +1,20 @@
+{
+  "name": "waypoint",
+  "productName": "Waypoint",
+  "version": "1.1.0",
+  "description": "Offline markdown notebook with wikilinks, a live graph and live sync.",
+  "main": "main.js",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "postinstall": "node -e \"require('electron')\"",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "electron": "44.5.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

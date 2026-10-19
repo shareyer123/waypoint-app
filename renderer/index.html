@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Offline by construction: no request can leave the app (the main process also cancels any that try). -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: wpvault:; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-src 'none'; object-src 'none'">
+<title>Waypoint</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="toolbar">
+  <button id="btnNew" type="button" title="New note (Ctrl+N)">+ New note</button>
+  <button id="btnOpen" type="button" title="Open vault (Ctrl+O)">Open vault…</button>
+  <span class="sp"></span>
+  <div class="seg" role="group" aria-label="View">
+    <button id="tabNote" type="button" class="on" aria-pressed="true">Note</button>
+    <button id="tabGraph" type="button" aria-pressed="false">Graph</button>
+    <button id="tabSplit" type="button" aria-pressed="false" title="Note and graph side by side (wide windows)">Split</button>
+  </div>
+  <span class="sp"></span>
+  <button id="btnEdit" type="button" title="Finish editing (Esc)" hidden>Done</button>
+  <button id="btnSave" type="button" class="primary" hidden disabled title="Save (Ctrl+S)">Save</button>
+</header>
+
+<div id="banner" role="alert" hidden>
+  <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 1.5 15 14H1z"></path><path d="M8 6v3.5M8 11.5v.5"></path></svg>
+  <span id="bannerText"></span>
+  <span class="sp"></span>
+  <button id="btnReload" type="button" class="warn">Reload</button>
+  <button id="btnKeep" type="button">Keep mine</button>
+</div>
+
+<div id="app">
+  <aside>
+    <label class="search">Search
+      <input id="search" type="search" placeholder="Search notes…">
+    </label>
+    <nav id="list" aria-label="Notes"></nav>
+  </aside>
+  <main id="main">
+    <section id="noteView" aria-label="Note"></section>
+    <section id="graphView" aria-label="Graph" hidden>
+      <canvas id="graph" aria-label="Graph of notes and their links. Click a node to open the note."></canvas>
+      <div class="ghint">Click a node to open it · drag to move · double-click to fit</div>
+      <div class="gctl">
+        <button id="zoomIn" type="button" aria-label="Zoom in">+</button>
+        <button id="zoomOut" type="button" aria-label="Zoom out">−</button>
+        <button id="zoomFit" type="button">Fit</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer id="statusbar">
+  <span class="live"><i class="dot" aria-hidden="true"></i><span id="liveText">Live — watching vault</span></span>
+  <span id="counts"></span>
+  <span class="sp"></span>
+  <span>Offline · network blocked</span>
+</footer>
+
+<div id="firstRun" hidden>
+  <div class="fr">
+    <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><rect x="14" y="14" width="36" height="36" rx="3" transform="rotate(45 32 32)" class="fr-a"></rect><rect x="24" y="24" width="16" height="16" transform="rotate(45 32 32)" class="fr-b"></rect></svg>
+    <h1>Waypoint</h1>
+    <p>A local notebook for a folder of markdown notes. Pick a vault to open.</p>
+    <div class="pick">
+      <button id="btnSample" type="button" class="primary big" hidden>Open sample vault</button>
+      <button id="btnChoose" type="button" class="big">Browse for a folder…</button>
+    </div>
+    <div id="recentBox" class="recent" hidden>
+      <div class="cap">Recent</div>
+      <div id="recentList"></div>
+    </div>
+    <div class="facts"><span>Offline — every network request is blocked</span><span>·</span><span>Files stay in your folder</span><span>·</span><span>No telemetry</span></div>
+  </div>
+</div>
+
+<dialog id="newDlg">
+  <form id="newForm" method="dialog">
+    <h2>New note</h2>
+    <label>Name <input id="newName" type="text" required autocomplete="off" placeholder="Note name"></label>
+    <label>Folder <select id="newWhere"></select></label>
+    <div class="dlg-btns">
+      <button type="button" id="newCancel">Cancel</button>
+      <button type="submit" class="primary">Create</button>
+    </div>
+  </form>
+</dialog>
+
+<div id="toast" role="status"></div>
+
+<script src="links.js"></script>
+<script src="markdown.js"></script>
+<script src="graph.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
