@@ -16,5 +16,9 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "overrides": {
+    "@types/node": "24.13.5",
+    "undici": "7.29.1"
   }
 }
